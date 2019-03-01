@@ -34,8 +34,8 @@ services:
       - MEDIA_RELAY_WS_PORT=8080
 
       # Creds for Bluemix STT
-      - WATSON_STT_API_KEY=pP4JcyyxahU__SbRt5HSwievzGPt_iYAWcl57PFpi1tU
-      - WATSON_STT_URL=https://gateway-wdc.watsonplatform.net/speech-to-text/api
-
-
+      #- WATSON_STT_PASSWORD=
+      #If your account is associated with an apikey uncomment WATSON_STT_APIKEY and WATSON_STT_TOKEN_SERVICE_PROVIDER_URL and fill apikey accordingly
+      #- WATSON_STT_APIKEY=
+      #- WATSON_STT_TOKEN_SERVICE_PROVIDER_URL=https://iam.bluemix.net/identity/token
 
