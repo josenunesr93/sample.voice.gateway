@@ -1,0 +1,56 @@
+version: '2'
+services:
+  sip.orchestrator:
+    image: ibmcom/voice-gateway-so:latest
+    container_name: voice-gateway-so
+    ports:
+      - "5060:5060"
+      - "5060:5060/udp"
+    environment:
+      # Host name of the CMR.
+      - MEDIA_RELAY_HOST=media.relay:8080
+      - SIP_HOST=${EXTERNAL_IP}
+
+      # Uncomment and specify when the Conversation API is used
+      #  - WATSON_CONVERSATION_WORKSPACE_ID=80edffb5-2c6a-4476-9c6c-3ef96960b50f
+      # - WATSON_CONVERSATION_APIKEY=XgTrn6CUK4PQscocG51uR2iNcY0B6V9cGv_VKg-Ea4j0
+      # - WATSON_CONVERSATION_TOKEN_SERVICE_PROVIDER_URL=https://iam.bluemix.net/identity/token
+      # - WATSON_CONVERSATION_TOKEN_SERVICE_URL=https://gateway-wdc.watsonplatform.net/assistant/api     
+      # - WATSON_CONVERSATION_URL=https://gateway-wdc.watsonplatform.net/assistant/api  
+      # Logging related variables
+      - ENABLE_TRANSCRIPTION_AUDIT_MESSAGES=true
+      - LOG_LEVEL=finest
+
+      - REPORTING_TRANSCRIPTION_CLOUDANT_URL=https://a754d7da-3585-41f5-ab3b-1ca605828732-bluemix.cloudant.com/
+      - REPORTING_TRANSCRIPTION_CLOUDANT_APIKEY=Qmm1JfAMMgr1k0DpvDS9Raa2kHyHhXGIGmyjK1QNf0TG
+      - REPORTING_TRANSCRIPTION_CLOUDANT_DB_NAME=siprec
+      - REPORTING_TRANSCRIPTION_CLOUDANT_EVENT_INDEX=siprec
+
+  media.relay:
+    image: ibmcom/voice-gateway-mr:latest
+    container_name: voice-gateway-mr
+    ports:
+      - "16384-16394:16384-16394/udp"
+    environment:
+      - SDP_ADDRESS=${EXTERNAL_IP}
+      - RTP_UDP_PORT_RANGE=16384-16394
+      - MEDIA_RELAY_LOG_LEVEL=DEBUG
+      - MEDIA_RELAY_WS_PORT=8080
+
+      # Creds for Bluemix STT
+      - WATSON_STT_APIKEY=pP4JcyyxahU__SbRt5HSwievzGPt_iYAWcl57PFpi1tU
+      - WATSON_STT_URL=https://gateway-wdc.watsonplatform.net/speech-to-text/api
+      - WATSON_STT_TOKEN_SERVICE_PROVIDER_URL=https://iam.bluemix.net/identity/token
+      - WATSON_STT_TOKEN_SERVICE_URL=https://gateway-wdc.watsonplatform.net/speech-to-text/api       
+
+      # Creds for Bluemix TTS
+      # - WATSON_TTS_APIKEY=V_jKWvwDCyC1MWtFIgFBoW37INdmvsACJzExR87vc9ta
+      # - WATSON_TTS_URL=https://gateway-wdc.watsonplatform.net/text-to-speech/api
+      # - WATSON_TTS_TOKEN_SERVICE_PROVIDER_URL=https://iam.bluemix.net/identity/token
+      # - WATSON_TTS_TOKEN_SERVICE_URL=https://gateway-wdc.watsonplatform.net/text-to-speech/api 
+      # - WATSON_TTS_VOICE=en-US_AllisonVoice
+
+      # Uncomment the following three lines to enable call recording
+      - ENABLE_RECORDING=true
+    volumes:
+      - $PWD/recordings:/vgw-media-relay/recordings

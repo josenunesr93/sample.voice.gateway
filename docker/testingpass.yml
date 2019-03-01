@@ -1,4 +1,4 @@
-https://www.ibm.com/support/knowledgecenter/SS4U29/reporting.htmlversion: '2'
+version: '2'
 services:
   sip.orchestrator:
     image: ibmcom/voice-gateway-so:latest
@@ -13,8 +13,8 @@ services:
 
       # Configure either an SOE or reporting interface to receive the transcriptions (or both)
       # SOE
-      - WATSON_CONVERSATION_APIKEY=XgTrn6CUK4PQscocG51uR2iNcY0B6V9cGv_VKg-Ea4j0
-      - WATSON_CONVERSATION_URL=https://gateway-wdc.watsonplatform.net/assistant/api
+      # - WATSON_CONVERSATION_APIKEY=XgTrn6CUK4PQscocG51uR2iNcY0B6V9cGv_VKg-Ea4j0
+      # - WATSON_CONVERSATION_URL=https://gateway-wdc.watsonplatform.net/assistant/api
        
       # Reporting
       - REPORTING_TRANSCRIPTION_CLOUDANT_URL=https://7c9673c3-6f31-4ee7-b0fa-ee3aa177770d-bluemix.cloudant.com/

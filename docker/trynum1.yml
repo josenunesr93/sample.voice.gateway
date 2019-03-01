@@ -1,4 +1,4 @@
-https://www.ibm.com/support/knowledgecenter/SS4U29/reporting.htmlversion: '2'
+version: '2'
 services:
   sip.orchestrator:
     image: ibmcom/voice-gateway-so:latest
@@ -8,14 +8,16 @@ services:
       - "5060:5060/udp"
     environment:
       # Host name of the CMR.
-      - MEDIA_RELAY_HOST=media.relay:8080
+      - MEDIA_RELAY_HOST=media.relay:16384
       - SIP_HOST=${EXTERNAL_IP}
 
       # Configure either an SOE or reporting interface to receive the transcriptions (or both)
       # SOE
+      - WATSON_CONVERSATION_WORKSPACE_ID=80edffb5-2c6a-4476-9c6c-3ef96960b50f
       - WATSON_CONVERSATION_APIKEY=XgTrn6CUK4PQscocG51uR2iNcY0B6V9cGv_VKg-Ea4j0
-      - WATSON_CONVERSATION_URL=https://gateway-wdc.watsonplatform.net/assistant/api
-       
+      - WATSON_CONVERSATION_TOKEN_SERVICE_PROVIDER_URL=https://gateway-wdc.watsonplatform.net/assistant/api/v1/token
+      - WATSON_CONVERSATION_URL=https://gateway-wdc.watsonplatform.net/assistant/api       
+      
       # Reporting
       - REPORTING_TRANSCRIPTION_CLOUDANT_URL=https://7c9673c3-6f31-4ee7-b0fa-ee3aa177770d-bluemix.cloudant.com/
       - REPORTING_TRANSCRIPTION_CLOUDANT_APIKEY=7c9673c3-6f31-4ee7-b0fa-ee3aa177770d-bluemix    
@@ -26,16 +28,15 @@ services:
     image: ibmcom/voice-gateway-mr:latest
     container_name: voice-gateway-mr
     ports:
-      - "16384-16394:16384-16394/udp"
+      - "16385-16394:16385-16394/udp"
     environment:
       - SDP_ADDRESS=${EXTERNAL_IP}
-      - RTP_UDP_PORT_RANGE=16384-16394
+      - RTP_UDP_PORT_RANGE=16385-16394
       - MEDIA_RELAY_LOG_LEVEL=DEBUG
-      - MEDIA_RELAY_WS_PORT=8080
+      - MEDIA_RELAY_WS_PORT=16384
 
       # Creds for Bluemix STT
-      - WATSON_STT_API_KEY=pP4JcyyxahU__SbRt5HSwievzGPt_iYAWcl57PFpi1tU
-      - WATSON_STT_URL=https://gateway-wdc.watsonplatform.net/speech-to-text/api
-
-
-
+      - WATSON_STT_APIKEY=pP4JcyyxahU__SbRt5HSwievzGPt_iYAWcl57PFpi1tU
+      - WATSON_STT_TOKEN_SERVICE_PROVIDER_URL=https://gateway-wdc.watsonplatform.net/speech-to-text/api/v1/token
+      - WATSON_STT_TOKEN_SERVICE_URL=https://stream.watsonplatform.net/speech-to-text/api
+      - WATSON_STT_URL=https://stream.watsonplatform.net/speech-to-text/api    

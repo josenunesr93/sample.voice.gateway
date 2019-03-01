@@ -1,0 +1,59 @@
+version: '2'
+services:
+          sip.orchestrator:
+            image: ibmcom/voice-gateway-so:latest
+            container_name: voice-gateway-so
+            ports:
+               - "5060:5060"
+               - "5060:5060/udp"
+            environment:
+               # Host name of the CMR.
+              - MEDIA_RELAY_HOST=media.relay:8080
+              - SIP_HOST=52.91.191.63
+              # Uncomment and specify when the Conversation API is used
+              # - WATSON_CONVERSATION_WORKSPACE_ID=64f5cb64-d8ab-449d-8427-0cbc8393fb02
+              #- WATSON_CONVERSATION_APIKEY=tTmKUWe90oSTwY3kPa_FUcM7I_stJOeD2il0Vo8oVqW7
+              #- WATSON_CONVERSATION_TOKEN_SERVICE_PROVIDER_URL=https://iam.bluemix.net/identity/token
+              #- WATSON_CONVERSATION_TOKEN_SERVICE_URL=https://gateway-wdc.watsonplatform.net/assistant/api    
+              #- WATSON_CONVERSATION_URL=https://gateway-wdc.watsonplatform.net/assistant/api
+              # Logging related variables
+              - ENABLE_TRANSCRIPTION_AUDIT_MESSAGES=true
+                
+              - REPORTING_TRANSCRIPTION_CLOUDANT_URL=https://e2c4f154-e06a-4554-9897-72b66efee098-bluemix.cloudant.com
+              - REPORTING_TRANSCRIPTION_CLOUDANT_APIKEY=ZqhH0MKtAv9Romf_y2mQvQ-woEgCghZROWAR4oV03bU7
+              - REPORTING_TRANSCRIPTION_CLOUDANT_DB_NAME=transcript
+              - REPORTING_TRANSCRIPTION_CLOUDANT_EVENT_INDEX=transcription
+                                                                                              
+              - TRUSTED_IP_LIST=35.171.25.127,34.205.161.150,54.172.60.0,54.172.60.1,54.172.60.2,54.172.60.3
+                                                                                                       
+              - LOG_LEVEL=all
+            volumes:
+              - /usr/src/sample.voice.gateway/docker:/vgwConf/
+          media.relay:
+             image: ibmcom/voice-gateway-mr:latest
+             container_name: voice-gateway-mr
+             ports:
+              - "16384-16394:16384-16394/udp"
+             environment:
+              - SDP_ADDRESS=52.91.191.63
+              - RTP_UDP_PORT_RANGE=16384-16394
+              - MEDIA_RELAY_LOG_LEVEL=DEBUG
+              - MEDIA_RELAY_WS_PORT=8080
+              - ENABLE_RTCP=true
+              #Creds for Bluemix STT
+              - WATSON_STT_APIKEY=Nopp830WliYGZ7FWUlgyEiPRie0-eeIg_k8Hi1p31bQg
+              - WATSON_STT_URL=https://gateway-wdc.watsonplatform.net/speech-to-text/api
+              - WATSON_STT_TOKEN_SERVICE_PROVIDER_URL=https://iam.bluemix.net/identity/token
+              - WATSON_STT_TOKEN_SERVICE_URL=https://gateway-wdc.watsonplatform.net/speech-to-text/api      
+                                                                                                                                                                                                    
+              # Creds for Bluemix TTS
+              #- WATSON_TTS_APIKEY=8CBleF5XAJsNHO_SYTKYYF127Jbw6XLuhEVlRhRVYx9R
+              #- WATSON_TTS_URL=https://gateway-wdc.watsonplatform.net/text-to-speech/api
+              #- WATSON_TTS_TOKEN_SERVICE_PROVIDER_URL=https://iam.bluemix.net/identity/token
+              #- WATSON_TTS_TOKEN_SERVICE_URL=https://gateway-wdc.watsonplatform.net/text-to-speech/api
+              #- WATSON_TTS_VOICE=en-US_MichaelVoice
+                                                                                                                                                                                                                                    
+              # Uncomment the following three lines to enable call recording
+              - ENABLE_RECORDING=false
+             volumes:
+              - /usr/src/sample.voice.gateway/docker/recordings:/vgw-media-relay/recordings

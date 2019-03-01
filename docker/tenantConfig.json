@@ -1,0 +1,19 @@
+{
+	    "tenants": [{  
+		            "tenantURI": "siprec-tenant",
+			    "description": "SIPREC tenant",
+			    "sendSIPCallIDToConversation": true,                                                                                 "sendSIPToUriToConversation": true,
+                            "sendSIPFromUriToConversation": true,
+			    "customSIPRECSessionField": "session_id",
+			    "customSIPInviteHeader":"X-Twilio-CallSid",
+			    "reporting": {
+			         "transcriptionCloudant": {										                "url": "https://e2c4f154-e06a-4554-9897-72b66efee098-bluemix.cloudant.com",
+                  		 "apikey":"ZqhH0MKtAv9Romf_y2mQvQ-woEgCghZROWAR4oV03bU7",
+				   "dbName": "transcript",								                                "eventInd": "transcription"					              }											                  },																	          "stt": {  															          "credentials": {
+		          "url":"https://gateway-wdc.watsonplatform.net/speech-to-text/api",					               "tokenServiceProviderUrl":"https://iam.bluemix.net/identity/token", 					          "apikey": "Nopp830WliYGZ7FWUlgyEiPRie0-eeIg_k8Hi1p31bQg"							              },
+																														              "config": {													              "profanity_filter": true,
+		               "smart_formatting": true,									              "model": "en-US_NarrowbandModel"     }
+																					         }
+																					       }
+																					       ]
+																					    }
