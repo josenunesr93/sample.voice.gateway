@@ -8,8 +8,12 @@
           "customSIPRECSessionField":"session_id",
           "customSIPInviteHeader":"X-Twilio-CallSid",
           "reporting":{  
-                   "url":"http://aamvp.tdx.sandcitadel.com:8088/integration/transcriptions/watson",
-		   "transcriptionEventInd": "transcription"
+             "transcriptionCloudant":{  
+                   "url":"https://4a1e23c7-4856-4b16-acb4-347cb0a358ee-bluemix.cloudant.com",
+                   "apikey":"Wsti8xgdpatG-gZgbHK4cAdSm6hv7jQSlQRBeLJDgKVm",
+                   "dbName":"transcript",
+                   "eventInd":"transcription"
+			             }
 	              },
           "stt":{  
             "credentials":{  
