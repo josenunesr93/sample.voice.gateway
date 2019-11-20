@@ -8,14 +8,14 @@
           "customSIPRECSessionField":"session_id",
           "customSIPInviteHeader":"X-Twilio-CallSid",
           "reporting":{  
-                   "url":"http://aamvp.tdx.sandcitadel.com:8088/integration/transcriptions/watson",
+                   "url":"",
 		   "transcriptionEventInd": "transcription"
 	              },
           "stt":{  
             "credentials":{  
                   "url":"https://gateway-lon.watsonplatform.net/speech-to-text/api",
                   "tokenServiceProviderUrl":"https://iam.bluemix.net/identity/token",
-                  "apikey":"guEM4TM7fOrV2hTEMNxK9pAvlgINCSrsAeluO1uJAw27"
+                  "apikey":""
 					            },
             "config":{  
                   "profanity_filter":true,
